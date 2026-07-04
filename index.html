@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trần Khải Minh | Visual Attraction & Digital Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans for ultra-modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'blob': 'blob 12s infinite',
+                        'tilt': 'tilt 10s infinite linear',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        tilt: {
+                            '0%, 100%': { transform: 'rotate(0deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #030303;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px rgba(255, 255, 255, 0.05) solid;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.15);
+            transform: translateY(-6px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body class="text-gray-100 antialiased min-h-screen relative flex flex-col justify-between">
+
+    <!-- Đốm sáng chuyển động nền giúp giữ chân thị giác người dùng -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <!-- Đốm sáng chính giữa sau Avatar -->
+        <div class="absolute top-[25%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-indigo-600/20 via-violet-600/10 to-transparent blur-[80px] animate-pulse-slow"></div>
+        <!-- Đốm sáng góc trái -->
+        <div class="absolute top-0 -left-40 w-96 h-96 rounded-full bg-blue-600/10 blur-[100px] animate-blob"></div>
+        <!-- Đốm sáng góc phải -->
+        <div class="absolute bottom-10 -right-40 w-96 h-96 rounded-full bg-purple-600/10 blur-[100px] animate-blob" style="animation-delay: 4s;"></div>
+    </div>
+
+    <header class="w-full max-w-6xl mx-auto px-6 py-6 flex justify-between items-center relative z-10">
+        <div class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-300 to-zinc-500 bg-clip-text text-transparent">TKM.</span>
+            <span class="px-2 py-0.5 text-[9px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full font-medium tracking-wide">STUDIO</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-8 text-sm text-zinc-400 font-medium">
+            <a href="#" class="text-white transition-colors duration-300">Trang chủ</a>
+            <a href="#services" class="hover:text-white transition-colors duration-300">Dịch vụ</a>
+            <a href="#about" class="hover:text-white transition-colors duration-300">Giới thiệu</a>
+            <a href="#contact" class="hover:text-white transition-colors duration-300">Liên hệ</a>
+            <!-- Link Admin với biểu tượng ổ khóa sang trọng -->
+            <button onclick="openLoginModal()" class="hover:text-indigo-400 flex items-center gap-1.5 transition-colors duration-300 py-1 px-3.5 bg-zinc-900/60 rounded-full border border-zinc-800 hover:border-indigo-500/30">
+                <i class="fa-solid fa-lock text-[10px]"></i> Admin
+            </button>
+        </nav>
+        <div class="flex items-center gap-3">
+            <!-- Nút liên hệ và nút mở rộng di động cho Admin -->
+            <button onclick="openLoginModal()" class="md:hidden w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-xs text-zinc-400 hover:text-white">
+                <i class="fa-solid fa-lock"></i>
+            </button>
+            <a href="#contact" class="px-5 py-2 bg-white text-black hover:bg-zinc-200 text-xs font-semibold rounded-full transition-all duration-300 shadow-md">Liên Hệ Ngay</a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col justify-center items-center relative z-10 px-6 py-12 md:py-20 w-full max-w-6xl mx-auto">
+        <div class="text-center flex flex-col items-center">
+            
+            <!-- Avatar / Logo Icon Container with visual magnetic-pulse effect -->
+            <div class="relative group mb-8">
+                <!-- Outer glowing aura -->
+                <div class="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full blur-xl opacity-45 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+                
+                <!-- Rotating border outline -->
+                <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-spin" style="animation-duration: 15s;"></div>
+                
+                <!-- Logo Avatar container -->
+                <div class="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden border-[4px] border-zinc-950 bg-zinc-900 shadow-2xl flex items-center justify-center">
+                    <img 
+                        src="https://scontent.fvca4-1.fna.fbcdn.net/v/t39.30808-1/729438042_1002856475964686_3088048644843406764_n.jpg?stp=dst-jpg_tt6&cstp=mx960x960&ctp=s200x200&_nc_cat=100&ccb=1-7&_nc_sid=e99d92&_nc_ohc=ebrYKeuGN74Q7kNvwHiyLUm&_nc_oc=AdpMUWkmWnl16kPJseLkcLYxjk0XxKRaZcwjOiYw9bvV3fFRYgW4o1bkv4os9IvgVz_c6d3oW7UIBMS0uVQckh5U&_nc_zt=24&_nc_ht=scontent.fvca4-1.fna&_nc_gid=o8miW25JsovIPT_cUetMdQ&_nc_ss=7b2a8&oh=00_AQCpQwy04ZxW36mlDGmrkTyDSwX-XEzkpC0A8sdrSWvfWg&oe=6A4D8619" 
+                        alt="Trần Khải Minh Avatar" 
+                        class="w-full h-full object-cover transition duration-500 transform group-hover:scale-105"
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x400/18181b/ffffff?text=TKM';"
+                    />
+                </div>
+                
+                <!-- Micro-interaction Tag -->
+                <span id="cloud-status-badge" class="absolute bottom-1 right-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-lg border border-amber-400 animate-pulse">Offline</span>
+            </div>
+
+            <!-- Huge typography carefully styled for maximum readability & aesthetic appeal -->
+            <div class="max-w-3xl">
+                <span class="text-xs uppercase font-extrabold tracking-[0.3em] text-indigo-400 mb-4 block">Visual & Interactive Designer</span>
+                
+                <!-- Big Bold Name with dynamic gradient -->
+                <h1 class="text-5xl md:text-8xl font-black tracking-tight leading-none mb-6">
+                    <span class="bg-gradient-to-b from-white via-white to-zinc-400 bg-clip-text text-transparent">TRẦN KHẢI MINH</span>
+                </h1>
+                
+                <p class="text-zinc-400 text-base md:text-lg max-w-xl mx-auto font-light leading-relaxed mb-16">
+                    Xây dựng trải nghiệm số thế hệ mới dựa trên nghiên cứu tâm lý hành vi và sự thu hút thị giác người dùng. Biến lượt xem thành trải nghiệm đáng nhớ.
+                </p>
+            </div>
+
+            <!-- Glassmorphism interactive cards to hold editable service items -->
+            <div id="services" class="w-full max-w-5xl mt-8">
+                <div class="flex items-center justify-between mb-8 border-b border-zinc-900 pb-4">
+                    <div class="text-left">
+                        <h2 class="text-xl md:text-2xl font-bold">Dịch Vụ Đang Phát Triển</h2>
+                        <p class="text-xs text-zinc-500">Các giải pháp kỹ thuật số tối ưu hóa cao sẽ sớm được ra mắt</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <!-- Thẻ chỉ báo admin nếu đang đăng nhập -->
+                        <div id="admin-indicator" class="hidden px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-mono tracking-wider rounded-md">
+                            ADMIN MODE
+                        </div>
+                        <div class="px-3 py-1 bg-zinc-900 border border-zinc-800 rounded-md text-[10px] text-zinc-400 font-mono tracking-wider">
+                            STATUS: <span id="sync-status">LOAD DB...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid container containing service slots, dynamic list rendered from JS -->
+                <div id="services-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <!-- Sẽ được điền tự động bằng Javascript -->
+                </div>
+            </div>
+
+            <div id="about" class="w-full max-w-5xl mt-24 border border-zinc-900 rounded-3xl p-8 md:p-12 bg-zinc-950/30 backdrop-blur-md relative overflow-hidden text-left">
+                <div class="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+                    <i class="fa-solid fa-brain text-9xl text-indigo-500"></i>
+                </div>
+                <span class="text-[10px] font-extrabold tracking-widest text-indigo-400 uppercase mb-3 block">Triết lý thiết kế</span>
+                <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white">Tại sao chúng tôi tập trung vào "Sự Thu Hút Thị Giác"?</h3>
+                <p class="text-zinc-400 text-sm md:text-base leading-relaxed max-w-3xl mb-6">
+                    Mọi người dùng chỉ mất khoảng <strong class="text-white">0.05 giây</strong> để đưa ra đánh giá đầu tiên về một trang web. Áp dụng khoa học thần kinh thị giác (Neurodesign), chúng tôi tối ưu bố cục theo hình mẫu chữ Z và F kết hợp hiệu ứng tương phản cao, giúp đôi mắt của khách hàng ngay lập tức tìm thấy thông điệp cốt lõi và các điểm tương tác mong muốn của bạn.
+                </p>
+                <div class="flex flex-wrap gap-4 text-xs font-medium text-zinc-500">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle text-[6px] text-indigo-400 animate-pulse"></i> 50ms ấn tượng đầu</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle text-[6px] text-purple-400 animate-pulse"></i> Tối ưu hóa F-Shape</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-circle text-[6px] text-pink-400 animate-pulse"></i> Điểm chạm thị giác rõ ràng</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="w-full max-w-6xl mx-auto px-6 py-12 border-t border-zinc-900 mt-20 relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="text-center md:text-left">
+            <p class="text-xs text-zinc-500">&copy; 2026 Trần Khải Minh. Mọi quyền được bảo lưu.</p>
+            <p class="text-[10px] text-zinc-600 mt-1">Được kiến thiết từ nghiên cứu tối ưu hóa chú ý thị giác.</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Nút Admin cho footer để gia tăng nhận diện truy cập -->
+            <button onclick="openLoginModal()" class="text-xs text-zinc-500 hover:text-indigo-400 transition-all mr-2">Cổng Admin</button>
+            <div class="flex gap-4 text-zinc-400 text-sm">
+                <a href="#" class="hover:text-white transition-colors duration-300 w-9 h-9 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="hover:text-white transition-colors duration-300 w-9 h-9 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition-colors duration-300 w-9 h-9 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#" class="hover:text-white transition-colors duration-300 w-9 h-9 rounded-full bg-zinc-900 flex items-center justify-center border border-zinc-800"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- OVERLAY: Admin Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="w-full max-w-md glass-card rounded-2xl p-8 border border-zinc-800 relative shadow-2xl transform scale-95 transition-transform duration-300" id="login-card">
+            <!-- Top indicator line -->
+            <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+            
+            <!-- Close Button -->
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition-all">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mx-auto mb-3">
+                    <i class="fa-solid fa-shield-halved text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white">Quản Trị Hệ Thống</h3>
+                <p class="text-xs text-zinc-500 mt-1">Đăng nhập để điều chỉnh cấu trúc nội dung dịch vụ</p>
+            </div>
+
+            <!-- Login Form -->
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5" for="login-email">Email Admin</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-500">
+                            <i class="fa-solid fa-envelope text-xs"></i>
+                        </span>
+                        <input type="email" id="login-email" required class="w-full pl-10 pr-4 py-2.5 bg-zinc-950/60 border border-zinc-800 rounded-xl focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 outline-none text-sm transition-all text-white placeholder-zinc-600" placeholder="admin@domain.com">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5" for="login-password">Mật khẩu</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-zinc-500">
+                            <i class="fa-solid fa-lock text-xs"></i>
+                        </span>
+                        <input type="password" id="login-password" required class="w-full pl-10 pr-10 py-2.5 bg-zinc-950/60 border border-zinc-800 rounded-xl focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/30 outline-none text-sm transition-all text-white placeholder-zinc-600" placeholder="••••••••">
+                        <!-- Toggle Password Visibility -->
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-500 hover:text-white">
+                            <i class="fa-solid fa-eye text-xs" id="pwd-toggle-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Custom Inline Error Container (replaces native alert) -->
+                <div id="login-error" class="hidden text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-3 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-exclamation flex-shrink-0"></i>
+                    <span id="login-error-text">Thông tin đăng nhập chưa khớp!</span>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-semibold transition-all shadow-lg shadow-indigo-600/10 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket text-xs"></i> Đăng nhập hệ thống
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- OVERLAY: Admin Dashboard Control Panel -->
+    <div id="admin-dashboard-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="w-full max-w-5xl glass-card rounded-2xl p-6 md:p-8 border border-indigo-500/20 relative shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto" id="dashboard-card">
+            <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-900 pb-5 mb-6">
+                <div>
+                    <span class="text-[10px] font-bold tracking-widest text-indigo-400 uppercase">Control Console</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-screwdriver-wrench text-indigo-400"></i> Bảng Điều Khiển Admin
+                    </h2>
+                    <p class="text-xs text-zinc-500 mt-1">Quản lý dịch vụ & Đồng bộ đám mây thật</p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="handleLogout()" class="px-4 py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-red-400 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                    </button>
+                    <button onclick="saveAdminChanges()" class="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 shadow-lg shadow-indigo-600/15">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Lưu & Đồng bộ đám mây
+                    </button>
+                </div>
+            </div>
+
+            <!-- Service Editor Grid -->
+            <div>
+                <h3 class="text-sm font-semibold text-zinc-300 mb-4 uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-bars-progress text-indigo-400"></i> Chỉnh sửa Danh mục Dịch vụ (Live Update)
+                </h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="services-editor-container">
+                    <!-- Sẽ tự động tạo các form chỉnh sửa từ JavaScript, bao gồm nút thêm slot -->
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-4 border-t border-zinc-900 flex justify-between items-center text-[10px] text-zinc-600">
+                <span>Dữ liệu được đồng bộ trực tiếp lên cơ sở dữ liệu đám mây Firestore bảo mật cao.</span>
+                <span class="text-indigo-400">TKM Studio Cloud Console v3.0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Micro interactive toast alerts -->
+    <div id="toast-notif" class="fixed bottom-5 right-5 z-[100] px-4 py-3 bg-zinc-950 border border-emerald-500/30 text-emerald-400 text-xs rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300">
+        <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+        <span id="toast-text">Lưu thành công!</span>
+    </div>
+
+    <!-- Integration of Firebase modules for Real-time Cloud Sync -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+        // Dynamic Firebase Configuration setup
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'tkm-portfolio-app';
+        const firebaseConfig = {
+            apiKey: "AIzaSyDkCTd7vAgDZ5I3045FKtGcfk6QmL8BiOE",
+            authDomain: "tkmprovip1.firebaseapp.com",
+            projectId: "tkmprovip1",
+            storageBucket: "tkmprovip1.firebasestorage.app",
+            messagingSenderId: "490955621608",
+            appId: "1:490955621608:web:e398d757d9a4a20751f55d",
+            measurementId: "G-XJ3FP1G32Y"
+        };
+
+        // Initialize App & DB
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // State & Configuration Definitions
+        let servicesData = [
+            {
+                id: 1,
+                slotCode: "SLOT 01",
+                gradient: "from-indigo-500 to-transparent",
+                iconClass: "fa-solid fa-wand-magic-sparkles",
+                iconColor: "text-indigo-400",
+                iconBg: "bg-indigo-500/10 border-indigo-500/20",
+                title: "Visual Strategy & UI/UX",
+                description: "Thiết kế cấu trúc trang web tối ưu hóa dòng chảy thị giác giúp tăng trưởng tỉ lệ chuyển đổi.",
+                status: "Sắp kích hoạt",
+                url: ""
+            },
+            {
+                id: 2,
+                slotCode: "SLOT 02",
+                gradient: "from-purple-500 to-transparent",
+                iconClass: "fa-solid fa-code",
+                iconColor: "text-purple-400",
+                iconBg: "bg-purple-500/10 border-purple-500/20",
+                title: "Creative Engineering",
+                description: "Phát triển các ứng dụng web tốc độ cao, chuyển động siêu mượt mà và tối ưu hóa tối đa SEO.",
+                status: "Sắp kích hoạt",
+                url: ""
+            },
+            {
+                id: 3,
+                slotCode: "SLOT 03",
+                gradient: "from-pink-500 to-transparent",
+                iconClass: "fa-solid fa-chart-line",
+                iconColor: "text-pink-400",
+                iconBg: "bg-pink-500/10 border-pink-500/20",
+                title: "Conversion Optimization",
+                description: "Nghiên cứu bản đồ tương tác, cải thiện trải nghiệm mua hàng và giữ chân khách hàng lâu hơn.",
+                status: "Sắp kích hoạt",
+                url: ""
+            }
+        ];
+
+        let cloudSynced = false;
+
+        // Authenticate before operations
+        async function runCloudAuthentication() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    try {
+                        // Thử đăng nhập bằng custom token của hệ thống sandbox
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                        console.log("Firebase Authenticated with custom token.");
+                    } catch (tokenError) {
+                        // Nếu token không khớp (do bạn dùng database riêng), chuyển sang đăng nhập ẩn danh
+                        console.warn("Custom token mismatch. Switching to custom Anonymous Auth fallback...", tokenError);
+                        await signInAnonymously(auth);
+                        console.log("Firebase Authenticated anonymously (fallback).");
+                    }
+                } else {
+                    await signInAnonymously(auth);
+                    console.log("Firebase Authenticated anonymously.");
+                }
+                document.getElementById('cloud-status-badge').textContent = "CLOUD ACTIVE";
+                document.getElementById('cloud-status-badge').className = "absolute bottom-1 right-1 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-lg border border-emerald-400 animate-pulse";
+                document.getElementById('sync-status').textContent = "LIVE DATA";
+                
+                // Fetch portfolio services document
+                await loadServicesFromCloud();
+            } catch (err) {
+                console.error("Firebase auth/sync error:", err);
+                document.getElementById('sync-status').textContent = "LOCAL MODE";
+                renderServices(); // Fallback to local
+            }
+        }
+
+        // LOAD: Read services list from Firestore under strict path
+        async function loadServicesFromCloud() {
+            if (!auth.currentUser) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'portfolio_data', 'services');
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data && data.items) {
+                        servicesData = data.items;
+                        cloudSynced = true;
+                        console.log("Loaded services from Firestore successfully.");
+                    }
+                } else {
+                    // Initialize cloud storage with our default state (Seed)
+                    await saveServicesToCloud(servicesData);
+                    cloudSynced = true;
+                }
+            } catch (error) {
+                console.error("Firestore loading error:", error);
+                showToast("Lỗi nạp dữ liệu đám mây, sử dụng bộ nhớ tạm", "amber");
+            } finally {
+                renderServices();
+            }
+        }
+
+        // WRITE: Sync current state to Firebase Firestore document
+        async function saveServicesToCloud(updatedList) {
+            if (!auth.currentUser) {
+                showToast("Vui lòng đợi cấu hình bảo mật kết nối...", "amber");
+                return;
+            }
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'portfolio_data', 'services');
+                await setDoc(docRef, { items: updatedList }, { merge: true });
+                console.log("Synchronized to cloud database.");
+                return true;
+            } catch (error) {
+                console.error("Firestore writing error:", error);
+                showToast("Không thể đồng bộ lên Cloud. Đang tự lưu cục bộ.", "amber");
+                return false;
+            }
+        }
+
+        // Render Services on Main Page
+        function renderServices() {
+            const grid = document.getElementById('services-grid');
+            grid.innerHTML = '';
+
+            servicesData.forEach((service, index) => {
+                const card = document.createElement('div');
+                
+                // Add click redirection event if url exists
+                const hasUrl = service.url && service.url.trim() !== "";
+                if (hasUrl) {
+                    card.className = "glass-card rounded-2xl p-8 relative overflow-hidden group cursor-pointer hover:border-indigo-500/50 hover:shadow-lg hover:shadow-indigo-500/5 transition-all duration-300";
+                    card.setAttribute("onclick", `window.open('${service.url}', '_blank')`);
+                } else {
+                    card.className = "glass-card rounded-2xl p-8 relative overflow-hidden group";
+                }
+                
+                card.innerHTML = `
+                    <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${service.gradient || 'from-indigo-500 to-transparent'}"></div>
+                    
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="w-12 h-12 rounded-xl ${service.iconBg || 'bg-indigo-500/10 border-indigo-500/20'} border flex items-center justify-center ${service.iconColor || 'text-indigo-400'} group-hover:scale-110 transition duration-300">
+                            <i class="${service.iconClass || 'fa-solid fa-cube'} text-lg"></i>
+                        </div>
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="text-[10px] font-mono tracking-wider text-zinc-600">${service.slotCode || 'SLOT ' + String(index + 1).padStart(2, '0')}</span>
+                            ${hasUrl ? '<span class="text-[9px] text-indigo-400 flex items-center gap-1 bg-indigo-500/10 px-1.5 py-0.5 rounded"><i class="fa-solid fa-arrow-up-right-from-square"></i> Truy cập</span>' : ''}
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-bold text-zinc-300 group-hover:text-white transition-colors duration-300 mb-2">${service.title || 'Untitled Service'}</h3>
+                    <p class="text-sm text-zinc-500 leading-relaxed mb-6">${service.description || 'Chưa cập nhật mô tả.'}</p>
+                    
+                    <div class="border border-dashed border-zinc-800 rounded-lg p-3 flex items-center justify-center gap-2 bg-zinc-950/40 text-xs text-zinc-600">
+                        <span class="w-1.5 h-1.5 rounded-full ${service.status === 'Hoạt động' ? 'bg-emerald-500' : service.status === 'Tạm ngưng' ? 'bg-red-500' : 'bg-amber-500'} animate-pulse"></span>
+                        ${service.status || 'Sắp kích hoạt'}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render inputs inside Admin Control Panel
+        function renderAdminDashboardForm() {
+            const container = document.getElementById('services-editor-container');
+            container.innerHTML = '';
+
+            // Generate forms for all current slots
+            servicesData.forEach((service, index) => {
+                const formCard = document.createElement('div');
+                formCard.className = "bg-zinc-950/60 p-5 rounded-2xl border border-zinc-850 space-y-4 text-left relative";
+                formCard.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-zinc-900 pb-2 mb-2">
+                        <span class="text-xs font-mono font-bold text-indigo-400">${service.slotCode || 'SLOT ' + String(index + 1).padStart(2, '0')}</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="deleteSlot(${service.id})" class="text-[10px] text-zinc-500 hover:text-red-400 transition-colors flex items-center gap-1 bg-red-500/5 px-2 py-0.5 rounded border border-red-500/10">
+                                <i class="fa-solid fa-trash-can"></i> Xóa
+                            </button>
+                            <div class="flex items-center gap-1.5 text-[10px]">
+                                <span class="w-2 h-2 rounded-full ${service.status === 'Hoạt động' ? 'bg-emerald-500' : service.status === 'Tạm ngưng' ? 'bg-red-500' : 'bg-amber-500'}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-zinc-500 mb-1">Tên Dịch Vụ</label>
+                        <input type="text" id="edit-title-${service.id}" value="${service.title || ''}" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-indigo-500 transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-zinc-500 mb-1">Mô Tả Ngắn</label>
+                        <textarea id="edit-desc-${service.id}" rows="2" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-indigo-500 transition-all resize-none">${service.description || ''}</textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase font-bold text-zinc-500 mb-1">Đường dẫn liên kết (Link chuyển hướng)</label>
+                        <input type="url" id="edit-url-${service.id}" value="${service.url || ''}" placeholder="https://..." class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-indigo-500 transition-all">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-zinc-500 mb-1">Icon FontAwesome</label>
+                            <input type="text" id="edit-icon-${service.id}" value="${service.iconClass || 'fa-solid fa-star'}" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-indigo-500 transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase font-bold text-zinc-500 mb-1">Trạng Thế</label>
+                            <select id="edit-status-${service.id}" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-white outline-none focus:border-indigo-500 transition-all">
+                                <option value="Sắp kích hoạt" ${service.status === 'Sắp kích hoạt' ? 'selected' : ''}>Sắp kích hoạt</option>
+                                <option value="Hoạt động" ${service.status === 'Hoạt động' ? 'selected' : ''}>Hoạt động</option>
+                                <option value="Tạm ngưng" ${service.status === 'Tạm ngưng' ? 'selected' : ''}>Tạm ngưng</option>
+                            </select>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(formCard);
+            });
+
+            // ADD SLOT BUTTON
+            const addSlotCard = document.createElement('div');
+            addSlotCard.className = "border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 bg-zinc-950/20 hover:bg-indigo-500/5 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all duration-300 group min-h-[220px]";
+            addSlotCard.setAttribute("onclick", "addEmptySlot()");
+            addSlotCard.innerHTML = `
+                <div class="w-12 h-12 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-plus text-lg"></i>
+                </div>
+                <span class="text-sm font-semibold text-zinc-400 group-hover:text-white transition-colors">Thêm Slot Mới</span>
+                <span class="text-[10px] text-zinc-600 text-center px-4">Tạo thêm thẻ dịch vụ trống và tùy chỉnh thông tin của bạn</span>
+            `;
+            container.appendChild(addSlotCard);
+        }
+
+        // Append a new default slot inside the state
+        function addEmptySlot() {
+            const nextId = servicesData.length > 0 ? Math.max(...servicesData.map(s => s.id)) + 1 : 1;
+            const nextSlotNum = servicesData.length + 1;
+            const padNum = String(nextSlotNum).padStart(2, '0');
+            
+            const stylePatterns = [
+                { grad: "from-indigo-500 to-transparent", color: "text-indigo-400", bg: "bg-indigo-500/10 border-indigo-500/20", icon: "fa-solid fa-cubes" },
+                { grad: "from-purple-500 to-transparent", color: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20", icon: "fa-solid fa-microchip" },
+                { grad: "from-pink-500 to-transparent", color: "text-pink-400", bg: "bg-pink-500/10 border-pink-500/20", icon: "fa-solid fa-gamepad" },
+                { grad: "from-blue-500 to-transparent", color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20", icon: "fa-solid fa-rocket" }
+            ];
+            const pattern = stylePatterns[servicesData.length % stylePatterns.length];
+
+            const newSlot = {
+                id: nextId,
+                slotCode: `SLOT ${padNum}`,
+                gradient: pattern.grad,
+                iconClass: pattern.icon,
+                iconColor: pattern.color,
+                iconBg: pattern.bg,
+                title: "Dịch vụ mới " + padNum,
+                description: "Nhập mô tả cụ thể về thế mạnh kỹ thuật số hoặc công cụ bạn cung cấp tại đây.",
+                status: "Sắp kích hoạt",
+                url: ""
+            };
+
+            servicesData.push(newSlot);
+            renderAdminDashboardForm();
+            showToast("Đã chèn 1 slot dịch vụ trống!", "emerald");
+        }
+
+        // Remove a slot from the temporary local array
+        function deleteSlot(id) {
+            servicesData = servicesData.filter(s => s.id !== id);
+            // Re-index remaining slotCodes nicely
+            servicesData.forEach((s, idx) => {
+                s.slotCode = `SLOT ${String(idx + 1).padStart(2, '0')}`;
+            });
+            renderAdminDashboardForm();
+            showToast("Đã xóa slot thành công. Đừng quên lưu để đồng bộ!", "amber");
+        }
+
+        // Toggle Modals
+        function openLoginModal() {
+            if (localStorage.getItem('admin_session') === 'true') {
+                openAdminDashboard();
+                return;
+            }
+
+            const modal = document.getElementById('login-modal');
+            const card = document.getElementById('login-card');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-modal');
+            const card = document.getElementById('login-card');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('login-error').classList.add('hidden');
+                document.getElementById('login-email').value = '';
+                document.getElementById('login-password').value = '';
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('login-password');
+            const icon = document.getElementById('pwd-toggle-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Credentials Verification
+        const ADMIN_EMAIL = "minhtrankhai131110@gmail.com";
+        const ADMIN_PASS = "Minh@131110";
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-password').value;
+            const errorBox = document.getElementById('login-error');
+            const errorText = document.getElementById('login-error-text');
+
+            if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+                errorBox.classList.add('hidden');
+                localStorage.setItem('admin_session', 'true');
+                showToast("Đăng nhập thành công!", "emerald");
+                closeLoginModal();
+                setTimeout(() => {
+                    openAdminDashboard();
+                }, 350);
+            } else {
+                errorBox.classList.remove('hidden');
+                if (email !== ADMIN_EMAIL) {
+                    errorText.textContent = "Email quản trị viên không chính xác!";
+                } else {
+                    errorText.textContent = "Mật khẩu quản trị viên chưa đúng!";
+                }
+            }
+        }
+
+        function openAdminDashboard() {
+            renderAdminDashboardForm();
+            const modal = document.getElementById('admin-dashboard-modal');
+            const card = document.getElementById('dashboard-card');
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+            document.getElementById('admin-indicator').classList.remove('hidden');
+        }
+
+        function closeAdminDashboard() {
+            const modal = document.getElementById('admin-dashboard-modal');
+            const card = document.getElementById('dashboard-card');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        // Save admin edits to Cloud
+        async function saveAdminChanges() {
+            // Read values from form inputs back into state array
+            const updated = servicesData.map(service => {
+                const titleVal = document.getElementById(`edit-title-${service.id}`).value.trim();
+                const descVal = document.getElementById(`edit-desc-${service.id}`).value.trim();
+                const iconVal = document.getElementById(`edit-icon-${service.id}`).value.trim();
+                const statusVal = document.getElementById(`edit-status-${service.id}`).value;
+                const urlVal = document.getElementById(`edit-url-${service.id}`).value.trim();
+                
+                return {
+                    ...service,
+                    title: titleVal || service.title,
+                    description: descVal || service.description,
+                    iconClass: iconVal || service.iconClass,
+                    status: statusVal,
+                    url: urlVal
+                };
+            });
+
+            // Set state
+            servicesData = updated;
+
+            // Trigger Firestore Sync (DÁM MÂY THẬT)
+            const syncSuccess = await saveServicesToCloud(servicesData);
+            
+            if (syncSuccess) {
+                showToast("Đã đồng bộ lên Đám Mây thành công!", "emerald");
+            } else {
+                showToast("Đã sao lưu cục bộ! Không thể kết nối Cloud.", "amber");
+            }
+
+            // Update main screen UI
+            renderServices();
+            closeAdminDashboard();
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('admin_session');
+            document.getElementById('admin-indicator').classList.add('hidden');
+            closeAdminDashboard();
+            showToast("Đã đăng xuất khỏi cổng Admin.", "amber");
+        }
+
+        // Custom UI Toast Messages (Replaces alert)
+        function showToast(text, type = "emerald") {
+            const toast = document.getElementById('toast-notif');
+            const toastText = document.getElementById('toast-text');
+            const toastIcon = document.getElementById('toast-icon');
+            
+            toastText.textContent = text;
+            
+            if (type === "emerald") {
+                toast.className = "fixed bottom-5 right-5 z-[100] px-4 py-3 bg-zinc-950 border border-emerald-500/40 text-emerald-400 text-xs rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300";
+                toastIcon.className = "fa-solid fa-circle-check";
+            } else {
+                toast.className = "fixed bottom-5 right-5 z-[100] px-4 py-3 bg-zinc-950 border border-amber-500/40 text-amber-400 text-xs rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300";
+                toastIcon.className = "fa-solid fa-triangle-exclamation";
+            }
+
+            // Show UI
+            toast.classList.remove('translate-y-10', 'opacity-0', 'pointer-events-none');
+            
+            // Hide UI
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
+            }, 3500);
+        }
+
+        // Bind to window to prevent module scope reference errors (Crucial Rule)
+        window.openLoginModal = openLoginModal;
+        window.closeLoginModal = closeLoginModal;
+        window.handleLogin = handleLogin;
+        window.saveAdminChanges = saveAdminChanges;
+        window.togglePasswordVisibility = togglePasswordVisibility;
+        window.handleLogout = handleLogout;
+        window.addEmptySlot = addEmptySlot;
+        window.deleteSlot = deleteSlot;
+
+        // Initialize App & Trigger Auth
+        window.onload = function () {
+            // Load Local session cache for Admin mode indicator
+            if (localStorage.getItem('admin_session') === 'true') {
+                document.getElementById('admin-indicator').classList.remove('hidden');
+            }
+
+            // Start Firebase & Fetch Data from Firestore Cloud
+            runCloudAuthentication();
+
+            // Interactive Eye pointer effect
+            const gazeDot = document.createElement('div');
+            gazeDot.className = 'fixed w-4 h-4 rounded-full pointer-events-none z-50 transition-transform duration-100 mix-blend-difference bg-white/15 scale-0';
+            gazeDot.style.filter = 'blur(1px)';
+            document.body.appendChild(gazeDot);
+
+            document.addEventListener('mousemove', (e) => {
+                gazeDot.style.left = `${e.clientX - 8}px`;
+                gazeDot.style.top = `${e.clientY - 8}px`;
+                gazeDot.style.transform = 'scale(1)';
+            });
+
+            document.addEventListener('mouseleave', () => {
+                gazeDot.style.transform = 'scale(0)';
+            });
+        }
+    </script>
+</body>
+</html>
